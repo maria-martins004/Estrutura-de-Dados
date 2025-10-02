@@ -10,8 +10,9 @@ Pilha::~Pilha() {
     cout << "Pilha destruída" << endl;
 }
 
+// a pilha inicia vazia, portanto top == 0; e não top = 0; 
 bool Pilha::empty() {
-    return top = 0;
+    return (top == 0);
 }
 
 bool Pilha::full() {
@@ -26,13 +27,14 @@ void Pilha::clear() {
     top = 0;
 }
 
+// insere na posição livre do vetor
 void Pilha::push(StackEntry x) {
     if(full()) {
         cout << "Pilha cheia" << endl;
         abort();
     }
-    entry[top] = x;
     top + 1;
+    entry[top] = x;
 }
 
 
