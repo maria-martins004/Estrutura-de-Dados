@@ -6,16 +6,18 @@ Fila::Fila() {
     head = tail = NULL;
 }
 
+// houve troca head = p; na verdade p = head;
 Fila::~Fila() {
     QueuePointer p;
 
     while(head!=NULL) {
-        head = p;
+        p = head;
         head = head->nextNode;
         delete p;
     }
 }
 
+// ou pode ser escrito desta forma, talvez seja até melhor "return (head == NULL)"
 bool Fila::empty() {
     head = tail = NULL;
 }
@@ -24,10 +26,16 @@ bool Fila::full() {
     return false;
 }
 
+// basicamente a mesma coisa que o serve, se pedir, pensar na função serve()
 void Fila::clear() {
-    if(head == NULL) {
-        tail = NULL;
-    } 
+   QueuePointer p;
+
+   while(head!=NULL) {
+    p = head;
+    head - head->nextNode;
+    delete p;
+   }
+   tail = NULL;
 }
 
 int Fila::size() {
@@ -37,44 +45,52 @@ int Fila::size() {
     while(p!=NULL) {
         tamanho++;
         p = p->nextNode;
-        delete p;
+        // delete p; neste caso aqui, não tem delete p
     }
     return tamanho;
 }
 
 void Fila::append(QueueEntry x) {
 QueuePointer p;
-if(empty()) {
-    cout << "Fila vazia" << endl;
+// p tem que receber um novo nó de node
+p = new QueueNode;
+
+// verifica primeiro se tem memória e não se está vazio
+if(p == NULL) {
+    cout << "Memória Insuficiente" << endl;
     abort();
 }
+
 p->entry = x;
-if(head!=NULL) {
+// aqui verifica se está vazio
+if(empty()) {
 tail = head = p;    
 } else {
+    tail->nextNode = p;
     tail = p;
-    tail = tail->nextNode;
-    delete p;
+    // em uma inserção, neste caso não há delete
 }
 
-if(head == NULL) {
-    tail = NULL;
-}
+p->nextNode = NULL;
 }
 
 void Fila::serve(QueueEntry &x) {
     QueuePointer p;
 
-    if(full()) {
-        cout << "Fila cheia" << endl;
+    // verificar se ta vazio e não cheio
+    if(empty()) {
+        cout << "Fila Vazia" << endl;
         abort();
     }
 
-    head->entry = x;
+    x = head->entry;
     p = head;
     head = head->nextNode;
     delete p;
-
+    // faltou um if de verificação
+    if(head == NULL) {
+        tail = NULL;
+    }
 }
 
 void Fila::getFront(QueueEntry &x) {
